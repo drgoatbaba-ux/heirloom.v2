@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght=0,400..700;1,400..700&family=Playfair+Display:ital,wght=0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-hand: "Caveat", cursive;
+  --font-lora: "Lora", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  
+  --color-art-bg: #FDFCF0;
+  --color-art-sidebar: #F8F1E7;
+  --color-art-accent: #9D4439;
+  --color-art-dark: #4A3728;
+  --color-art-border: #E8E2D2;
+  --color-art-wisdom: #5D4037;
+  --color-art-story: #828E6F;
+}
+
+/* Custom warm organic styling details */
+body {
+  background-color: var(--color-art-bg);
+  color: var(--color-art-dark);
+  font-family: var(--font-serif);
+}
+
+/* Artistic Flair custom offset block shadows */
+.art-shadow {
+  box-shadow: 4px 4px 0px #E8E2D2;
+}
+
+.art-shadow-hover:hover {
+  box-shadow: 6px 6px 0px #9D4439;
+}

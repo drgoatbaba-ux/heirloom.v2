@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "Entry": {
+      "title": "Heritage Entry",
+      "description": "An entry containing extracted family recipe, story, and/or wisdom.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique document ID"
+        },
+        "rawText": {
+          "type": "string",
+          "description": "The raw informal text submitted by the user"
+        },
+        "has_recipe": {
+          "type": "boolean",
+          "description": "Whether the entry has an extracted recipe"
+        },
+        "recipe": {
+          "type": "object",
+          "description": "The extracted recipe data or null"
+        },
+        "has_story": {
+          "type": "boolean",
+          "description": "Whether the entry has an extracted story"
+        },
+        "story": {
+          "type": "string",
+          "description": "The extracted story text or null"
+        },
+        "has_wisdom": {
+          "type": "boolean",
+          "description": "Whether the entry has extracted wisdom"
+        },
+        "wisdom": {
+          "type": "string",
+          "description": "The extracted wisdom text or null"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The ISO timestamp when the entry was created"
+        }
+      },
+      "required": [
+        "id",
+        "rawText",
+        "has_recipe",
+        "has_story",
+        "has_wisdom",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "entries/{entryId}": {
+      "schema": "Entry",
+      "description": "Collection of all public heritage entries"
+    }
+  }
+}

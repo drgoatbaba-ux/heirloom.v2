@@ -1,0 +1,6 @@
+{
+  "name": "Heirloom",
+  "description": "A shared family archive for recipes, stories, and wisdom. Paste messy, informal recipe or memory text, extract structured heritage, and view the Story, Recipe, and Wisdom books.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
