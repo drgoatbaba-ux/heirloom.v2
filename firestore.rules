@@ -5,8 +5,7 @@ service cloud.firestore {
       allow read: if true;
     }
     match /entries/{entryId} {
-      allow read, create: if true;
-      allow update, delete: if false; // entries are immutable in the shared public archive
+      allow read, create, update, delete: if true;
     }
   }
 }

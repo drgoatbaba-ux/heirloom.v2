@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import { initializeApp } from "firebase/app";
-import { initializeFirestore, collection, addDoc, getDocs, query, orderBy, doc, getDocFromServer } from "firebase/firestore";
+import { initializeFirestore, collection, addDoc, getDocs, query, orderBy, doc, getDocFromServer, updateDoc, deleteDoc } from "firebase/firestore";
 
 dotenv.config();
 
@@ -158,6 +158,51 @@ async function startServer() {
     } catch (error: any) {
       console.error("Error processing heritage entry:", error);
       res.status(500).json({ error: error.message || "Failed to process entry" });
+    }
+  });
+
+  app.put("/api/entries/:id", async (req, res) => {
+    const { id } = req.params;
+    const { recipe, story, wisdom, has_recipe, has_story, has_wisdom } = req.body;
+    try {
+      const docRef = doc(db, "entries", id);
+      const updateData: any = {
+        has_recipe: !!has_recipe,
+        recipe: has_recipe && recipe ? {
+          title: recipe.title || "Untitled Recipe",
+          ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
+          steps: Array.isArray(recipe.steps) ? recipe.steps : []
+        } : null,
+        has_story: !!has_story,
+        story: has_story ? story : null,
+        has_wisdom: !!has_wisdom,
+        wisdom: has_wisdom ? wisdom : null,
+        updatedAt: new Date().toISOString()
+      };
+      
+      await updateDoc(docRef, updateData);
+      
+      // Get the updated doc to return it
+      const updatedSnap = await getDocFromServer(docRef);
+      res.json({
+        id: updatedSnap.id,
+        ...updatedSnap.data()
+      });
+    } catch (error: any) {
+      console.error("Error updating entry in Firestore:", error);
+      res.status(500).json({ error: error.message || "Failed to update entry" });
+    }
+  });
+
+  app.delete("/api/entries/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const docRef = doc(db, "entries", id);
+      await deleteDoc(docRef);
+      res.json({ success: true });
+    } catch (error: any) {
+      console.error("Error deleting entry from Firestore:", error);
+      res.status(500).json({ error: error.message || "Failed to delete entry" });
     }
   });
 

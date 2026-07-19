@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { PlusCircle, BookOpen, MessageSquare, Quote, Heart, RotateCcw } from "lucide-react";
+import { PlusCircle, BookOpen, MessageSquare, Quote, Heart, RotateCcw, Home } from "lucide-react";
 import Header from "./components/Header";
 import EntryForm from "./components/EntryForm";
 import BookView from "./components/BookView";
 import EntryDetail from "./components/EntryDetail";
+import HomeView from "./components/HomeView";
 import { HeritageEntry } from "./types";
 
-type ViewTab = "submit" | "recipes" | "stories" | "wisdom";
+type ViewTab = "home" | "submit" | "recipes" | "stories" | "wisdom";
 
 export default function App() {
   const [entries, setEntries] = useState<HeritageEntry[]>([]);
-  const [activeTab, setActiveTab] = useState<ViewTab>("submit");
+  const [activeTab, setActiveTab] = useState<ViewTab>("home");
   const [selectedEntry, setSelectedEntry] = useState<HeritageEntry | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -55,6 +56,18 @@ export default function App() {
     setSelectedEntry(newEntry);
   };
 
+  const handleEntryUpdated = (updatedEntry: HeritageEntry) => {
+    setEntries((prev) =>
+      prev.map((e) => (e.id === updatedEntry.id ? updatedEntry : e))
+    );
+    setSelectedEntry(updatedEntry);
+  };
+
+  const handleEntryDeleted = (deletedId: string) => {
+    setEntries((prev) => prev.filter((e) => e.id !== deletedId));
+    setSelectedEntry(null);
+  };
+
   // Counting entries for badges
   const recipeCount = entries.filter((e) => e.has_recipe).length;
   const storyCount = entries.filter((e) => e.has_story).length;
@@ -64,17 +77,30 @@ export default function App() {
     <div className="min-h-screen bg-art-bg flex flex-col justify-between text-art-dark" id="app-root">
       <div>
         {/* Universal Header */}
-        <Header />
+        <Header onHomeClick={() => setActiveTab("home")} />
 
         {/* Navigation Tabs */}
         <div className="max-w-4xl mx-auto px-4 mt-8" id="navigation-tabs-container">
-          <div className="flex bg-art-sidebar p-1.5 rounded-sm border border-art-border art-shadow justify-between overflow-x-auto gap-2">
+          <div className="flex bg-art-sidebar p-1.5 rounded-[12px] border border-art-border/80 hn-soft-shadow justify-between overflow-x-auto gap-2">
+            <button
+              onClick={() => setActiveTab("home")}
+              className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-[8px] font-sans text-xs uppercase tracking-widest font-bold transition-all cursor-pointer flex-1 whitespace-nowrap ${
+                activeTab === "home"
+                  ? "bg-art-accent text-[#fbf9f5] shadow-sm"
+                  : "text-art-dark/75 hover:text-art-dark hover:bg-art-border/35"
+              }`}
+              id="tab-home"
+            >
+              <Home className="w-4 h-4" />
+              Home
+            </button>
+
             <button
               onClick={() => setActiveTab("submit")}
-              className={`flex items-center justify-center gap-2 px-4 py-3 rounded-sm font-serif text-xs uppercase tracking-wider font-medium transition-all cursor-pointer flex-1 whitespace-nowrap ${
+              className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-[8px] font-sans text-xs uppercase tracking-widest font-bold transition-all cursor-pointer flex-1 whitespace-nowrap ${
                 activeTab === "submit"
-                  ? "bg-art-accent text-white shadow-xs font-semibold"
-                  : "text-art-dark/70 hover:text-art-dark hover:bg-art-border/40"
+                  ? "bg-art-accent text-[#fbf9f5] shadow-sm"
+                  : "text-art-dark/75 hover:text-art-dark hover:bg-art-border/35"
               }`}
               id="tab-submit"
             >
@@ -84,10 +110,10 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab("recipes")}
-              className={`flex items-center justify-center gap-2 px-4 py-3 rounded-sm font-serif text-xs uppercase tracking-wider font-medium transition-all cursor-pointer flex-1 whitespace-nowrap ${
+              className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-[8px] font-sans text-xs uppercase tracking-widest font-bold transition-all cursor-pointer flex-1 whitespace-nowrap ${
                 activeTab === "recipes"
-                  ? "bg-art-accent text-white shadow-xs font-semibold"
-                  : "text-art-dark/70 hover:text-art-dark hover:bg-art-border/40"
+                  ? "bg-art-accent text-[#fbf9f5] shadow-sm"
+                  : "text-art-dark/75 hover:text-art-dark hover:bg-art-border/35"
               }`}
               id="tab-recipes"
             >
@@ -102,10 +128,10 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab("stories")}
-              className={`flex items-center justify-center gap-2 px-4 py-3 rounded-sm font-serif text-xs uppercase tracking-wider font-medium transition-all cursor-pointer flex-1 whitespace-nowrap ${
+              className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-[8px] font-sans text-xs uppercase tracking-widest font-bold transition-all cursor-pointer flex-1 whitespace-nowrap ${
                 activeTab === "stories"
-                  ? "bg-art-accent text-white shadow-xs font-semibold"
-                  : "text-art-dark/70 hover:text-art-dark hover:bg-art-border/40"
+                  ? "bg-art-accent text-[#fbf9f5] shadow-sm"
+                  : "text-art-dark/75 hover:text-art-dark hover:bg-art-border/35"
               }`}
               id="tab-stories"
             >
@@ -120,10 +146,10 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab("wisdom")}
-              className={`flex items-center justify-center gap-2 px-4 py-3 rounded-sm font-serif text-xs uppercase tracking-wider font-medium transition-all cursor-pointer flex-1 whitespace-nowrap ${
+              className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-[8px] font-sans text-xs uppercase tracking-widest font-bold transition-all cursor-pointer flex-1 whitespace-nowrap ${
                 activeTab === "wisdom"
-                  ? "bg-art-accent text-white shadow-xs font-semibold"
-                  : "text-art-dark/70 hover:text-art-dark hover:bg-art-border/40"
+                  ? "bg-art-accent text-[#fbf9f5] shadow-sm"
+                  : "text-art-dark/75 hover:text-art-dark hover:bg-art-border/35"
               }`}
               id="tab-wisdom"
             >
@@ -146,22 +172,37 @@ export default function App() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              <p className="font-serif text-art-dark/70 text-sm italic">Unlocking the family archive boxes...</p>
+              <p className="font-serif text-art-dark/80 text-sm italic">Unlocking the family archive boxes...</p>
             </div>
           ) : fetchError ? (
-            <div className="max-w-md mx-auto py-20 px-4 text-center border border-art-border bg-art-sidebar art-shadow" id="error-state">
+            <div className="max-w-md mx-auto py-20 px-4 text-center border border-art-border bg-white rounded-[12px] hn-soft-shadow" id="error-state">
               <span className="font-hand text-5xl text-art-accent block mb-2">Oh dear</span>
-              <p className="font-serif text-art-dark mb-6">{fetchError}</p>
+              <p className="font-serif text-art-dark mb-6 leading-relaxed">{fetchError}</p>
               <button 
                 onClick={() => window.location.reload()}
-                className="px-5 py-2.5 bg-art-accent hover:bg-art-accent/90 text-white rounded-sm text-xs uppercase tracking-wider font-serif shadow-sm flex items-center gap-1.5 mx-auto cursor-pointer"
+                className="px-6 py-3 bg-art-accent hover:bg-[#833f1f] text-white rounded-[4px] text-xs uppercase tracking-widest font-sans font-bold shadow-sm flex items-center gap-1.5 mx-auto cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" /> Retry Loading
               </button>
             </div>
           ) : (
             <AnimatePresence mode="wait">
-              {activeTab === "submit" ? (
+              {activeTab === "home" ? (
+                <motion.div
+                  key="home"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <HomeView
+                    onNavigate={(tab) => setActiveTab(tab)}
+                    recipeCount={recipeCount}
+                    storyCount={storyCount}
+                    wisdomCount={wisdomCount}
+                  />
+                </motion.div>
+              ) : activeTab === "submit" ? (
                 <motion.div
                   key="submit"
                   initial={{ opacity: 0, y: 10 }}
@@ -203,18 +244,20 @@ export default function App() {
           <EntryDetail
             entry={selectedEntry}
             onClose={() => setSelectedEntry(null)}
+            onUpdate={handleEntryUpdated}
+            onDelete={handleEntryDeleted}
           />
         )}
       </AnimatePresence>
 
       {/* Warm Heritage Footer */}
-      <footer className="border-t border-art-border bg-art-sidebar py-8 px-4 mt-16 text-center text-xs text-art-dark/70 font-serif italic">
-        <div className="max-w-xl mx-auto flex flex-col items-center gap-1.5">
-          <p className="flex items-center gap-1.5 font-serif text-sm">
+      <footer className="border-t border-art-border bg-art-sidebar py-10 px-4 mt-20 text-center text-xs text-art-dark/80 font-sans">
+        <div className="max-w-xl mx-auto flex flex-col items-center gap-2">
+          <p className="flex items-center gap-1.5 font-serif text-sm text-art-dark italic">
             Made with <Heart className="w-3.5 h-3.5 text-art-accent fill-current" /> by the family, for the generations to come.
           </p>
-          <p className="text-[10px] text-art-dark/50 uppercase tracking-widest font-sans font-semibold">
-            Single Public Shared Archive. No registration required.
+          <p className="text-[10px] text-art-dark/60 uppercase tracking-[0.2em] font-sans font-bold">
+            Single Public Shared Archive &bull; Preserving Legacies
           </p>
         </div>
       </footer>

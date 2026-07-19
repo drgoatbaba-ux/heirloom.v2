@@ -1,33 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght=0,400..700;1,400..700&family=Playfair+Display:ital,wght=0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
   --font-hand: "Caveat", cursive;
-  --font-lora: "Lora", serif;
-  --font-sans: "Inter", system-ui, sans-serif;
   
-  --color-art-bg: #FDFCF0;
-  --color-art-sidebar: #F8F1E7;
-  --color-art-accent: #9D4439;
-  --color-art-dark: #4A3728;
-  --color-art-border: #E8E2D2;
-  --color-art-wisdom: #5D4037;
-  --color-art-story: #828E6F;
+  --color-art-bg: #fbf9f5;
+  --color-art-sidebar: #f7f3eb;
+  --color-art-accent: #944925;
+  --color-art-dark: #5d4037;
+  --color-art-border: #E6D5C3;
+  --color-art-wisdom: #5d4037;
+  --color-art-story: #944925;
 }
 
 /* Custom warm organic styling details */
 body {
   background-color: var(--color-art-bg);
   color: var(--color-art-dark);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
+  line-height: 1.6;
 }
 
-/* Artistic Flair custom offset block shadows */
-.art-shadow {
-  box-shadow: 4px 4px 0px #E8E2D2;
+/* Very soft warm-toned shadows */
+.hn-soft-shadow {
+  box-shadow: 0 10px 30px -5px rgba(93, 64, 55, 0.10);
 }
 
-.art-shadow-hover:hover {
-  box-shadow: 6px 6px 0px #9D4439;
+.hn-card-shadow {
+  box-shadow: 0 4px 16px -2px rgba(93, 64, 55, 0.05);
 }
+
+.hn-card-shadow-hover:hover {
+  box-shadow: 0 8px 24px -2px rgba(148, 73, 37, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Ruled notebook paper styling */
+.ruled-notebook-paper {
+  background-image: linear-gradient(rgba(93, 64, 55, 0.08) 1px, transparent 1px);
+  background-size: 100% 2rem;
+  line-height: 2rem;
+  border: none;
+  border-bottom: 2px solid var(--color-art-border);
+  border-radius: 0;
+  padding-left: 0.5rem;
+  background-color: transparent;
+}
+
+.ruled-notebook-paper:focus {
+  outline: none;
+  border-bottom-color: var(--color-art-accent);
+}
+
+/* Decorative hand-drawn wavy divider */
+.hn-divider {
+  display: block;
+  height: 16px;
+  width: 100%;
+  max-width: 180px;
+  margin: 1.5rem auto;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M0,5 Q12.5,0 25,5 T50,5 T75,5 T100,5' fill='none' stroke='%23944925' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.6;
+}
+
+/* Scrapbook organic slight offsets */
+.scrapbook-offset-left {
+  transform: rotate(-1deg);
+}
+
+.scrapbook-offset-right {
+  transform: rotate(1deg);
+}
+
+.scrapbook-tape {
+  position: relative;
+}
+
+.scrapbook-tape::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 80px;
+  height: 24px;
+  background-color: rgba(230, 213, 195, 0.5);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border-left: 1px dashed rgba(93, 64, 55, 0.2);
+  border-right: 1px dashed rgba(93, 64, 55, 0.2);
+  z-index: 5;
+}
+

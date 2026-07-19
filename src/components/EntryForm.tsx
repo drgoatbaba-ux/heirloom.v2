@@ -84,25 +84,25 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6" id="entry-form-container">
-      <div className="bg-white rounded-sm p-6 sm:p-8 border border-art-border art-shadow relative overflow-hidden">
+    <div className="max-w-3xl mx-auto px-4 py-8" id="entry-form-container">
+      <div className="bg-white rounded-[12px] p-6 sm:p-8 border border-art-border hn-soft-shadow relative overflow-hidden scrapbook-tape scrapbook-offset-left md:hover:rotate-0 transition-transform duration-500">
         {/* Subtle decorative stamp in the background */}
-        <div className="absolute top-2 right-4 text-art-border font-hand text-5xl select-none rotate-6 opacity-30">
+        <div className="absolute -bottom-2 -right-4 text-art-border font-hand text-7xl select-none rotate-12 opacity-25">
           HEIRLOOM
         </div>
 
-        <h2 className="font-serif text-2xl text-art-dark mb-2 flex items-center gap-2">
+        <h2 className="font-serif text-2xl sm:text-3xl text-art-dark mb-2 flex items-center gap-2.5 font-normal">
           <Sparkles className="w-5 h-5 text-art-accent" />
           Record a Family Memory
         </h2>
-        <p className="text-sm text-art-dark/75 mb-6 leading-relaxed">
+        <p className="text-sm text-art-dark/85 mb-6 leading-relaxed font-sans">
           Write down what you remember, or paste a rough transcript of a conversation with an elder. Don&apos;t worry about editing or punctuation — let it flow naturally.
         </p>
 
         {/* Examples section */}
-        <div className="mb-6">
-          <span className="text-xs font-serif font-semibold text-art-dark/60 uppercase tracking-wider block mb-2">
-            Need inspiration? Click an example to load it:
+        <div className="mb-8">
+          <span className="text-[11px] font-sans font-bold text-art-dark/60 uppercase tracking-wider block mb-3">
+            Need inspiration? Click an archive to load:
           </span>
           <div className="flex flex-wrap gap-2">
             {EXAMPLES.map((ex, idx) => (
@@ -110,7 +110,7 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
                 key={idx}
                 type="button"
                 onClick={() => setText(ex.text)}
-                className="text-xs px-3 py-1.5 rounded-sm bg-art-sidebar text-art-dark/80 border border-art-border hover:bg-art-border hover:text-art-dark transition-colors font-sans text-left cursor-pointer"
+                className="text-xs px-3.5 py-2 rounded-[4px] bg-art-sidebar text-art-dark/90 border border-art-border hover:bg-art-border/40 transition-colors font-sans text-left cursor-pointer shadow-2xs font-medium"
               >
                 {ex.label}
               </button>
@@ -119,7 +119,7 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
         </div>
 
         {/* Input Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
             <textarea
               value={text}
@@ -130,10 +130,10 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
               placeholder="E.g., 'Grandma always made a special blueberry pie in July. She said the trick was to add a teaspoon of lemon zest. I remember we would pick the wild berries behind the red barn...'"
               rows={8}
               disabled={isLoading}
-              className="w-full rounded-sm bg-white border border-art-border p-4 text-art-dark placeholder-art-dark/40 focus:outline-none focus:ring-1 focus:ring-art-accent focus:border-art-accent transition-all font-serif text-base leading-relaxed resize-y"
+              className="w-full bg-transparent p-4 text-art-dark placeholder-art-dark/45 focus:outline-none transition-all font-sans text-base leading-relaxed resize-y ruled-notebook-paper border-b-2 border-art-border"
               id="raw-text-input"
             />
-            <span className="absolute bottom-3 right-3 text-[10px] text-art-dark/50 font-mono">
+            <span className="absolute bottom-3 right-3 text-[10px] text-art-dark/50 font-mono bg-white/80 px-1.5 py-0.5 rounded-sm">
               {text.length} characters
             </span>
           </div>
@@ -142,32 +142,32 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
             <motion.div 
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-sm text-art-accent bg-art-accent/5 rounded-sm p-3 border border-art-accent/20"
+              className="text-sm text-art-accent bg-art-accent/5 rounded-[4px] p-3 border border-art-accent/20 font-sans"
             >
               {error}
             </motion.div>
           )}
 
-          <div className="flex justify-between items-center pt-2">
-            <div className="flex gap-4 text-xs text-art-dark/60 font-sans">
-              <span className="flex items-center gap-1">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-2">
+            <div className="flex flex-wrap gap-3 text-xs text-art-dark/80 font-sans">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-art-sidebar border border-art-border/50 text-art-dark font-sans text-[11px] font-semibold">
                 <BookOpen className="w-3.5 h-3.5 text-art-accent" /> Recipes
               </span>
-              <span className="flex items-center gap-1">
-                <MessageSquare className="w-3.5 h-3.5 text-art-story" /> Stories
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-art-sidebar border border-art-border/50 text-art-dark font-sans text-[11px] font-semibold font-semibold">
+                <MessageSquare className="w-3.5 h-3.5 text-art-accent" /> Stories
               </span>
-              <span className="flex items-center gap-1">
-                <Quote className="w-3.5 h-3.5 text-art-wisdom" /> Wisdom
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-art-sidebar border border-art-border/50 text-art-dark font-sans text-[11px] font-semibold font-semibold">
+                <Quote className="w-3.5 h-3.5 text-art-accent" /> Wisdom
               </span>
             </div>
 
             <button
               type="submit"
               disabled={isLoading || !text.trim()}
-              className={`px-6 py-3 rounded-sm font-serif text-sm uppercase tracking-wider text-white flex items-center gap-2 transition-all cursor-pointer ${
+              className={`w-full sm:w-auto px-6 py-3.5 rounded-[4px] font-sans text-xs uppercase tracking-widest text-[#fbf9f5] flex items-center justify-center gap-2 transition-all cursor-pointer font-bold hn-card-shadow ${
                 isLoading || !text.trim()
-                  ? "bg-art-border text-art-dark/40 cursor-not-allowed"
-                  : "bg-art-accent hover:bg-art-accent/90 active:scale-[0.99] shadow-xs"
+                  ? "bg-art-border text-art-dark/40 cursor-not-allowed border border-art-border"
+                  : "bg-art-accent hover:bg-[#833f1f] active:scale-[0.99]"
               }`}
               id="submit-raw-text-btn"
             >
@@ -196,7 +196,7 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-art-bg/95 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-10"
+              className="absolute inset-0 bg-white/95 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center z-10"
               id="loading-overlay"
             >
               <div className="flex flex-col items-center max-w-sm">
@@ -212,7 +212,7 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
                   </div>
                 </div>
 
-                <h3 className="font-serif text-xl text-art-dark mb-2 font-medium">
+                <h3 className="font-serif text-2xl text-art-dark mb-2 font-normal">
                   Weaving Your Heritage
                 </h3>
                 
@@ -223,13 +223,13 @@ export default function EntryForm({ onEntryCreated }: EntryFormProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="font-hand text-2xl text-art-accent h-8"
+                    className="font-hand text-3xl text-art-accent h-8"
                   >
                     {LOADING_STEPS[loadingStep]}
                   </motion.p>
                 </AnimatePresence>
 
-                <p className="text-xs text-art-dark/60 mt-4 max-w-[280px]">
+                <p className="text-xs text-art-dark/70 mt-6 max-w-[280px] font-sans">
                   Using AI to extract original details without inventing anything. This will take a moment.
                 </p>
               </div>

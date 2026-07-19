@@ -51,7 +51,7 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
   return (
     <div className="max-w-6xl mx-auto px-4 py-6" id="book-view-container">
       {/* Search Input */}
-      <div className="mb-10 max-w-md mx-auto">
+      <div className="mb-12 max-w-md mx-auto">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-art-accent" />
           <input
@@ -61,7 +61,7 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
             placeholder={`Search within the ${
               currentBook === "recipes" ? "Recipe" : currentBook === "stories" ? "Story" : "Wisdom"
             } Book...`}
-            className="w-full pl-10 pr-4 py-2.5 rounded-sm bg-art-sidebar border border-art-border text-art-dark placeholder-art-dark/40 focus:outline-none focus:ring-1 focus:ring-art-accent focus:border-art-accent transition-all text-sm font-sans"
+            className="w-full pl-10 pr-4 py-2.5 rounded-[4px] bg-white border border-art-border text-art-dark placeholder-art-dark/45 focus:outline-none focus:ring-1 focus:ring-art-accent focus:border-art-accent transition-all text-sm font-sans hn-card-shadow"
           />
         </div>
       </div>
@@ -71,11 +71,11 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-20 px-4 bg-art-sidebar rounded-sm border border-dashed border-art-border art-shadow"
+          className="text-center py-20 px-4 bg-white rounded-[12px] border border-dashed border-art-border hn-soft-shadow"
           id="empty-book-state"
         >
           <div className="max-w-md mx-auto">
-            <span className="font-hand text-5xl text-art-accent/40 block mb-2">Empty Page</span>
+            <span className="font-hand text-5xl text-art-accent/60 block mb-2">Empty Page</span>
             <p className="font-serif text-lg text-art-dark mb-4 italic">
               {searchQuery
                 ? "No entries matched your search query in this book."
@@ -83,7 +83,7 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                     currentBook === "recipes" ? "Recipe" : currentBook === "stories" ? "Story" : "Wisdom"
                   } Book yet.`}
             </p>
-            <p className="text-xs text-art-dark/60 font-sans uppercase tracking-wider">
+            <p className="text-xs text-art-dark/70 font-sans uppercase tracking-wider font-semibold">
               {searchQuery
                 ? "Try searching for ingredients, names, or general keywords."
                 : "Submit a new raw story or voice transcript above to start our living archive!"}
@@ -105,17 +105,17 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                   onClick={() => onSelectEntry(entry)}
-                  className="bg-white p-6 border border-art-border art-shadow art-shadow-hover hover:border-art-accent cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px]"
+                  className="bg-white p-6 rounded-[12px] border border-art-border/80 hn-card-shadow hn-card-shadow-hover cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px]"
                   id={`recipe-card-${entry.id}`}
                 >
-                  {/* Absolute Stamp */}
-                  <div className="absolute -top-3 -left-3 bg-art-accent text-white text-[10px] px-2 py-1 uppercase tracking-wider font-sans font-semibold">
+                  {/* Absolute Badge */}
+                  <div className="absolute -top-3.5 left-4 bg-art-sidebar text-art-dark border border-art-border text-[10px] px-3 py-1 rounded-full uppercase tracking-wider font-sans font-bold shadow-2xs">
                     Recipe
                   </div>
 
                   <div className="pt-2">
                     <div className="flex justify-end items-center gap-2 mb-3">
-                      <span className="text-[10px] text-art-dark/50 font-sans italic">
+                      <span className="text-[10px] text-art-dark/60 font-sans font-semibold uppercase tracking-wider">
                         {formatDate(entry.createdAt)}
                       </span>
                     </div>
@@ -126,12 +126,12 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                     
                     <div className="mb-4">
                       <span className="text-xs font-serif italic text-art-accent block mb-1">Ingredients:</span>
-                      <ul className="text-xs text-art-dark/80 space-y-1 list-disc pl-4 line-clamp-4 font-sans">
+                      <ul className="text-xs text-art-dark/80 space-y-1 list-disc pl-4 line-clamp-4 font-sans leading-relaxed">
                         {entry.recipe.ingredients.slice(0, 4).map((ing, i) => (
                           <li key={i}>{ing}</li>
                         ))}
                         {entry.recipe.ingredients.length > 4 && (
-                          <li className="text-art-accent list-none pl-0 italic font-medium">
+                          <li className="text-art-accent list-none pl-0 italic font-semibold">
                             + {entry.recipe.ingredients.length - 4} more ingredients
                           </li>
                         )}
@@ -139,8 +139,8 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center text-xs text-art-dark/60 border-t border-art-border/60 pt-3 mt-4 font-sans">
-                    <span className="font-medium flex items-center gap-1">
+                  <div className="flex justify-between items-center text-xs text-art-dark/70 border-t border-art-border/50 pt-3 mt-4 font-sans font-semibold">
+                    <span className="flex items-center gap-1.5">
                       <Book className="w-3.5 h-3.5 text-art-accent" /> {entry.recipe.steps.length} steps
                     </span>
                     <span className="flex items-center gap-0.5 text-art-accent font-serif italic font-medium group-hover:translate-x-1 transition-transform">
@@ -152,6 +152,7 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
             }
 
             if (currentBook === "stories") {
+              const rotateClass = idx % 2 === 0 ? "scrapbook-offset-left" : "scrapbook-offset-right";
               return (
                 <motion.div
                   key={entry.id}
@@ -159,33 +160,33 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                   onClick={() => onSelectEntry(entry)}
-                  className="bg-art-sidebar p-6 border border-art-border art-shadow art-shadow-hover rounded-tl-[40px] rounded-br-[10px] cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px]"
+                  className={`bg-white p-6 rounded-[12px] border border-art-border/80 hn-card-shadow hn-card-shadow-hover cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px] ${rotateClass} md:hover:rotate-0`}
                   id={`story-card-${entry.id}`}
                 >
-                  {/* Absolute Stamp */}
-                  <div className="absolute -top-3 -left-3 bg-art-story text-white text-[10px] px-2 py-1 uppercase tracking-wider font-sans font-semibold">
+                  {/* Absolute Badge */}
+                  <div className="absolute -top-3.5 left-4 bg-art-sidebar text-art-dark border border-art-border text-[10px] px-3 py-1 rounded-full uppercase tracking-wider font-sans font-bold shadow-2xs">
                     Family Story
                   </div>
 
                   {/* Watermark Section Symbol */}
-                  <div className="absolute bottom-4 right-4 opacity-[0.06] select-none pointer-events-none text-art-accent">
+                  <div className="absolute bottom-4 right-4 opacity-[0.04] select-none pointer-events-none text-art-accent">
                     <Heart className="w-20 h-20 fill-current" />
                   </div>
 
                   <div className="pt-2">
                     <div className="flex justify-end items-center gap-2 mb-3">
-                      <span className="text-[10px] text-art-dark/50 font-sans italic">
+                      <span className="text-[10px] text-art-dark/60 font-sans font-semibold uppercase tracking-wider">
                         {formatDate(entry.createdAt)}
                       </span>
                     </div>
 
-                    <p className="font-serif italic text-art-dark/90 leading-relaxed text-base line-clamp-6">
+                    <p className="font-serif italic text-art-dark/95 leading-relaxed text-base line-clamp-6">
                       &ldquo;{entry.story}&rdquo;
                     </p>
                   </div>
 
-                  <div className="flex justify-end items-center text-xs text-art-accent border-t border-art-border/40 pt-3 mt-4 z-1">
-                    <span className="flex items-center gap-0.5 font-serif italic font-medium group-hover:translate-x-1 transition-transform">
+                  <div className="flex justify-end items-center text-xs text-art-accent border-t border-art-border/50 pt-3 mt-4 z-1">
+                    <span className="flex items-center gap-0.5 font-serif italic font-semibold group-hover:translate-x-1 transition-transform">
                       Read Memoir <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
@@ -194,6 +195,7 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
             }
 
             if (currentBook === "wisdom" && entry.wisdom) {
+              const rotateClass = idx % 2 === 0 ? "scrapbook-offset-right" : "scrapbook-offset-left";
               return (
                 <motion.div
                   key={entry.id}
@@ -201,31 +203,31 @@ export default function BookView({ entries, currentBook, onSelectEntry }: BookVi
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                   onClick={() => onSelectEntry(entry)}
-                  className="bg-white p-6 border border-art-border art-shadow art-shadow-hover hover:border-art-wisdom cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px]"
+                  className={`bg-white p-6 rounded-[12px] border border-art-border/80 hn-card-shadow hn-card-shadow-hover cursor-pointer transition-all flex flex-col justify-between group relative min-h-[250px] ${rotateClass} md:hover:rotate-0`}
                   id={`wisdom-card-${entry.id}`}
                 >
-                  {/* Absolute Stamp */}
-                  <div className="absolute -top-3 -left-3 bg-art-wisdom text-white text-[10px] px-2 py-1 uppercase tracking-wider font-sans font-semibold">
+                  {/* Absolute Badge */}
+                  <div className="absolute -top-3.5 left-4 bg-art-sidebar text-art-dark border border-art-border text-[10px] px-3 py-1 rounded-full uppercase tracking-wider font-sans font-bold shadow-2xs">
                     Wisdom
                   </div>
 
                   <div className="pt-2 flex-grow flex flex-col justify-between">
                     <div className="flex justify-end items-center gap-2 mb-4">
-                      <span className="text-[10px] text-art-dark/50 font-sans italic">
+                      <span className="text-[10px] text-art-dark/60 font-sans font-semibold uppercase tracking-wider">
                         {formatDate(entry.createdAt)}
                       </span>
                     </div>
 
                     <div className="mb-4 text-center py-2 flex-grow flex flex-col justify-center">
-                      <Quote className="w-6 h-6 text-art-border mb-2 mx-auto fill-current opacity-60" />
-                      <p className="font-serif italic text-xl text-art-dark leading-relaxed">
+                      <Quote className="w-6 h-6 text-art-accent/35 mb-3 mx-auto fill-current" />
+                      <p className="font-serif italic text-xl text-art-accent leading-relaxed font-normal">
                         &ldquo;{entry.wisdom}&rdquo;
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex justify-end items-center text-xs text-art-dark/60 border-t border-art-border/60 pt-3 mt-2 font-sans">
-                    <span className="flex items-center gap-0.5 font-serif italic font-medium text-art-accent group-hover:translate-x-1 transition-transform">
+                  <div className="flex justify-end items-center text-xs text-art-dark/70 border-t border-art-border/50 pt-3 mt-2 font-sans">
+                    <span className="flex items-center gap-0.5 font-serif italic font-semibold text-art-accent group-hover:translate-x-1 transition-transform">
                       Full Details <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
