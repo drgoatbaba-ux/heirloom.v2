@@ -16,15 +16,30 @@ if (!apiKey) {
 }
 
 // Read Firebase config
+let firebaseConfig: any = {};
 const configPath = path.join(process.cwd(), "firebase-applet-config.json");
-if (!fs.existsSync(configPath)) {
-  throw new Error("firebase-applet-config.json not found! Please ensure Firebase setup completed successfully.");
+if (fs.existsSync(configPath)) {
+  firebaseConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+} else {
+  firebaseConfig = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    firestoreDatabaseId: process.env.FIREBASE_FIRESTORE_DATABASE_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID || ""
+  };
 }
-const firebaseConfig = JSON.parse(fs.readFileSync(configPath, "utf8"));
+
+if (!firebaseConfig.projectId || !firebaseConfig.apiKey) {
+  throw new Error("Firebase configuration is incomplete. Please ensure firebase-applet-config.json is present, or the corresponding FIREBASE_ environment variables are set.");
+}
 
 // Initialize Firebase client SDK on the server (highly reliable, no credentials files needed)
 const firebaseApp = initializeApp(firebaseConfig);
-const db = initializeFirestore(firebaseApp, {}, firebaseConfig.firestoreDatabaseId);
+const db = initializeFirestore(firebaseApp, {}, firebaseConfig.firestoreDatabaseId || "(default)");
 
 // Validate Firestore connection on boot
 async function validateDbConnection() {
